@@ -153,7 +153,7 @@ void denoise(DataManager *data, int argc, char *argv[])
         denoiser.denoise();
     }
         break;
-    case 4:
+    case 3:
     {
         MeshDenoisingViaL0Minimization denoiser(data, &parameters);
         if(argc > 3)
@@ -167,7 +167,7 @@ void denoise(DataManager *data, int argc, char *argv[])
         denoiser.denoise();
     }
         break;
-    case 5:
+    case 4:
     {
         NonIterativeFeaturePreservingMeshFiltering denoiser(data, &parameters);
         if(argc > 3)
