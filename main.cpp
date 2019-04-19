@@ -95,9 +95,14 @@ void process(int argc, char *argv[])
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - beg).count();
     auto er = estimateMSAE(data);
     // export the denoised model.
-    data.ExportMeshToFile(model_name + "(" + argv[1] + argv[3]  + ").obj");
-    output << er.first << " " << er.second <<  " " << duration << " " ;
-    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - beg).count();
+    if(std::stoi(argv[1]) == 1)
+        output << "Bilateral: ";
+    else if(std::stoi(argv[1]) == 2)
+        output << " Fast&Effective: ";
+
+    for(int i = 3; i < argc; ++i)
+        output << argv[i] << " ";
+    output << "noisy:" << er.first << " denoised:" << std::endl;
     output.close();
 }
 
@@ -129,13 +134,19 @@ void denoise(DataManager *data, int argc, char *argv[])
     {
         BilateralNormalFilteringForMeshDenoising denoiser(data, &parameters);
         if(argc > 3)
-            parameters.setValue(string("sigma_s"), std::stod(argv[3]));
+            parameters.setValue(string("Denoise Type"), std::stoi(argv[3]));
         if(argc > 4)
-            parameters.setValue(string("Normal Iteration Num."), std::stoi(argv[4]));
+            parameters.setValue(string("Face Neighbor"),  std::stoi(argv[4]));
         if(argc > 5)
-            parameters.setValue(string("Smoothness"), std::stod(argv[5]));
+            parameters.setValue(string("Multiple(* sigma_c)"), std::stod(argv[5]));
         if(argc > 6)
-            parameters.setValue(string("Vertex Iteration Num."), std::stoi(argv[6]));
+            parameters.setValue(string("sigma_s"), std::stod(argv[6]));
+        if(argc > 7)
+            parameters.setValue(string("Normal Iteration Num."), std::stoi(argv[7]));
+        if(argc > 8)
+            parameters.setValue(string("Smoothness"), std::stod(argv[8]));
+        if(argc > 9)
+            parameters.setValue(string("Vertex Iteration Num."), std::stoi(argv[9]));
         denoiser.denoise();
     }
         break;

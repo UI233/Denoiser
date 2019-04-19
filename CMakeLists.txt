@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 2.8)
 project(denoiser)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -pedantic-errors")
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 include_directories(.)
 include_directories(Denoising)
 include_directories(Denoising/Algorithms)
